@@ -1,0 +1,76 @@
+<ion-view cache-view="false" view-title="CadastroLoja" hide-back-button="true">
+  <ion-nav-buttons side="right"> 
+    <button class="button button-stable" ng-hide="CadastroLoja.inserting || CadastroLoja.editing" ng-click="CadastroLoja.startInserting()"> <i class="icon ion-plus-round"></i> </button>
+    <button class="button button-stable" ng-show="CadastroLoja.inserting || CadastroLoja.editing" ng-click="CadastroLoja.post()"> <i class="icon ion-checkmark"></i> </button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="left">
+    <button class="button button-icon button-clear ion-navicon" ng-hide="CadastroLoja.inserting || CadastroLoja.editing" menu-toggle="left"> </button>
+    <button class="button button-stable" ng-show="CadastroLoja.inserting || CadastroLoja.editing" ng-click="CadastroLoja.cancel()"> <i class="icon ion-android-arrow-back"></i> </button>
+  </ion-nav-buttons>
+  <ion-content>
+    <div ng-hide="CadastroLoja.inserting || CadastroLoja.editing" data-component="crn-datasource-filter" id="crn-datasource-filter-general" class="">
+      <label class="item item-input" id="cloud-search1">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" ng-model="vars.search" cronapp-filter="titulo;" cronapp-filter-operator="" cronapp-filter-autopost="true" crn-datasource="CadastroLoja" value="" placeholder="{{'template.crud.search' | translate}}">
+      </label>
+    </div>   
+    <div class="component-holder ng-binding ng-scope ui-draggable ui-draggable-handle" data-component="crn-datasource" id="crn-datasource-906854">
+      <datasource name="CadastroLoja" entity="api/cronapi/crud/app.entity.CadastroLoja" keys="id" rows-per-page="10" delete-message="Deseja remover?" class=""></datasource>
+    </div>
+    <div crn-datasource="CadastroLoja" class="" ng-hide="CadastroLoja.editing || CadastroLoja.inserting">
+      <ion-list can-swipe="listCanSwipe">
+        <ion-item ng-repeat="rowData in datasource.data" class="item" ng-click="datasource.startEditing(rowData)">
+          <div class="row">
+            <div class="col">
+              <a ng-if="rowData.imagem" ng-click="datasource.openImage(rowData.imagem)">
+                  <img data-ng-src="{{rowData.imagem.startsWith('http') || (rowData.imagem.startsWith('/') &amp;&amp; rowData.imagem.length < 1000)? rowData.imagem : 'data:image/png;base64,' + rowData.imagem}}" style="max-height: 30px;">
+              </a>
+            </div>
+            <div class="col">
+              {{rowData.titulo}}
+            </div>
+            <div class="col">
+              {{rowData.descricao}}
+            </div>
+          </div>
+          <ion-option-button class="button-positive" ng-click="datasource.startEditing(rowData)">
+            <i class="icon ion-edit"></i>
+          </ion-option-button>
+          <ion-option-button class="button-assertive" ng-click="datasource.remove(rowData)">
+            &nbsp;
+            <i class="icon ion-trash-a"></i>
+          </ion-option-button>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div ng-show="CadastroLoja.editing || CadastroLoja.inserting">
+      <form crn-datasource="CadastroLoja">
+        <fieldset ng-disabled="!CadastroLoja.editing &amp;&amp; !CadastroLoja.inserting">
+          <div class="list">
+            <!-- imagem begin -->
+            <div class="component-holder ng-binding ng-scope col-md-4 col-xs-4" data-component="crn-dynamic-image">
+              <div class="item item-input item-stacked-label">
+                <label class="input-label">Imagem</label>
+                <div class="form-group">
+                  <div dynamic-image="" ng-model="CadastroLoja.active.imagem" max-file-size="5MB" class="dynamic-image-container" ng-required="false">
+                    {{"template.crud.clickToAddImage" | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- titulo begin -->
+            <label for="textinput-titulo" class="item item-input item-stacked-label col-md-12 col-xs-12">
+            <span class="input-label">Titulo</span>
+            <input type="text" placeholder="Titulo" ng-model="CadastroLoja.active.titulo" id="textinput-titulo" name="textinput-titulo">
+            </label>
+            <!-- descricao begin -->
+            <label for="textinput-descricao" class="item item-input item-stacked-label col-md-12 col-xs-12">
+            <span class="input-label">Descrição</span>
+            <input type="text" placeholder="Descrição" ng-model="CadastroLoja.active.descricao" id="textinput-descricao" name="textinput-descricao">
+            </label>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </ion-content>
+</ion-view>
